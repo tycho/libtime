@@ -34,6 +34,10 @@
 #  define inline __inline
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void libtime_init(void);
 
 uint64_t libtime_wall(void);
@@ -62,6 +66,10 @@ static inline uint64_t libtime_cpu(void)
 uint64_t libtime_cpu_to_wall(uint64_t clock);
 
 void libtime_nanosleep(int64_t ns);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 
