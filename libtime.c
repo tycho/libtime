@@ -275,4 +275,4 @@ void libtime_nanosleep(int64_t ns)
 	} while (ns_elapsed < ns);
 }
 
-/* vim: set ts=4 sw=4 noai expandtab: */
+/* vim: set ts=4 sw=4 noai noexpandtab: */
