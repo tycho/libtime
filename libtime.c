@@ -51,7 +51,7 @@
 #define LIBTIME_CLOCK_ID CLOCK_REALTIME
 #endif
 
-static uint32_t cycles_per_usec;
+static uint64_t cycles_per_usec;
 static int64_t max_sleep_ns;
 static uint64_t sleep_overhead_clk;
 #if defined(TARGET_OS_MACOSX)
@@ -71,6 +71,7 @@ static inline double fmin(double l, double r)
 }
 #endif
 
+#if defined(__x86_64__) || defined(__i386__)
 static uint32_t get_cycles_per_usec(void)
 {
 	uint64_t wc_s, wc_e;
@@ -91,7 +92,7 @@ static uint32_t get_cycles_per_usec(void)
 
 	return (c_e - c_s + 127) >> 7;
 }
-
+#endif
 
 static void libtime_init_wallclock(void)
 {
@@ -104,6 +105,7 @@ static void libtime_init_wallclock(void)
 
 static void libtime_init_cpuclock(void)
 {
+#if defined(__x86_64__) || defined(__i386__)
 	double delta, mean, S;
 	uint32_t avg, cycles[10];
 	int i, samples;
@@ -138,6 +140,9 @@ static void libtime_init_cpuclock(void)
 	avg = (avg + 9) / 10;
 
 	cycles_per_usec = avg;
+#else
+	cycles_per_usec = 1000;
+#endif
 }
 
 static inline void _libtime_nanosleep(void)
@@ -240,13 +245,13 @@ uint64_t libtime_wall(void)
 #else
 	struct timespec ts;
 	clock_gettime(LIBTIME_CLOCK_ID, &ts);
-	return (ts.tv_sec * 1000000000) + ts.tv_nsec;
+	return (ts.tv_sec * 1000000000ULL) + ts.tv_nsec;
 #endif
 }
 
 uint64_t libtime_cpu_to_wall(uint64_t clock)
 {
-	return (clock * 1000) / cycles_per_usec;
+	return (clock * 1000ULL) / cycles_per_usec;
 }
 
 void libtime_nanosleep(int64_t ns)

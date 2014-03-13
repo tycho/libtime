@@ -44,6 +44,7 @@ uint64_t libtime_wall(void);
 
 static inline uint64_t libtime_cpu(void)
 {
+#if defined(__x86_64__) || defined(__i386__)
 #ifdef _MSC_VER
 #  if _MSC_VER > 1200
     return __rdtsc();
@@ -61,6 +62,9 @@ static inline uint64_t libtime_cpu(void)
 
     __asm__ __volatile__("rdtsc" : "=a" (lo), "=d" (hi));
     return ((uint64_t) hi << 32ULL) | lo;
+#endif
+#else
+    return libtime_wall();
 #endif
 }
 uint64_t libtime_cpu_to_wall(uint64_t clock);
