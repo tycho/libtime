@@ -12,7 +12,7 @@ clean:
 	$(RM) $(LIB) $(OBJECTS)
 
 $(LIB): $(OBJECTS)
-	$(AR) $@ $^
+	$(QUIET_AR)$(AR) $@ $^
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(QUIET_CC)$(CC) $(CFLAGS) -c -o $@ $<
