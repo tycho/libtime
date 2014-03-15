@@ -11,8 +11,8 @@ all: $(LIB)
 clean:
 	$(RM) $(LIB) $(OBJECTS)
 
-$(LIB): $(OBJECTS)
+$(LIB): $(OBJECTS) .cflags
 	$(QUIET_AR)$(AR) $@ $^
 
-%.o: %.c
+%.o: %.c .cflags
 	$(QUIET_CC)$(CC) $(CFLAGS) -c -o $@ $<
