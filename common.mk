@@ -32,7 +32,7 @@ AR         := ar rcu
 RM         := rm -f
 CPPFLAGS   := -Wall -Werror
 CFOPTIMIZE := -O2
-CFLAGS     := $(CFOPTIMIZE) -std=c11 -fno-strict-aliasing $(CPPFLAGS)
+CFLAGS     := $(CFOPTIMIZE) -std=gnu11 -fno-strict-aliasing $(CPPFLAGS)
 LDFLAGS    :=
 
 ifeq (,$(findstring clean,$(MAKECMDGOALS)))
