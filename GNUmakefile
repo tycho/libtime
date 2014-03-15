@@ -1,9 +1,9 @@
 include common.mk
 
-CFLAGS  += -Iinclude
+CFLAGS  += -Iinclude -Iprivate
 
 LIB     := libtime.a
-SOURCES := libtime.c
+SOURCES := src/libtime.c
 OBJECTS := $(SOURCES:%.c=%.o)
 
 all: $(LIB)
