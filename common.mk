@@ -35,6 +35,12 @@ CFOPTIMIZE := -O2
 CFLAGS     := $(CFOPTIMIZE) -std=gnu11 -fno-strict-aliasing $(CPPFLAGS)
 LDFLAGS    :=
 
+ifeq ($(OSNAME),Darwin)
+# For AVX support, if the optimization flags cause the compiler to emit such
+# instructions
+CFLAGS     += -Wa,-q
+endif
+
 ifeq (,$(findstring clean,$(MAKECMDGOALS)))
 
 TRACK_CFLAGS = $(subst ','\'',$(CC) $(LINK) $(CFLAGS) $(LDFLAGS))
