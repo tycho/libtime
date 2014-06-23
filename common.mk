@@ -38,7 +38,9 @@ LDFLAGS    :=
 ifeq ($(OSNAME),Darwin)
 # For AVX support, if the optimization flags cause the compiler to emit such
 # instructions
+ifneq ($(findstring gcc,$(shell $(CC) -v 2>&1)),)
 CFLAGS     += -Wa,-q
+endif
 endif
 
 ifeq (,$(findstring clean,$(MAKECMDGOALS)))
