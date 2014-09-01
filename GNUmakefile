@@ -16,3 +16,5 @@ $(LIB): $(OBJECTS) .cflags
 
 %.o: %.c .cflags
 	$(QUIET_CC)$(CC) $(CFLAGS) -c -o $@ $<
+
+.PHONY: all clean
