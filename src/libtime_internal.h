@@ -61,4 +61,4 @@ extern void libtime_init_cpuclock(void);
 extern void libtime_init_sleep(void);
 extern void libtime_init_wallclock(void);
 
-/* vim: set ts=4 sw=4 noai noexpandtab: */
+/* vim: set ts=4 sw=4 noai noet: */

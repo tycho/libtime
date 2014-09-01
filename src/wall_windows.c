@@ -41,4 +41,4 @@ uint64_t libtime_wall(void)
 
 #endif
 
-/* vim: set ts=4 sw=4 noai noexpandtab: */
+/* vim: set ts=4 sw=4 noai noet: */

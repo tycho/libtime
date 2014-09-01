@@ -87,4 +87,4 @@ void libtime_nanosleep(int64_t ns);
 
 #endif
 
-/* vim: set ts=4 sw=4 noai noexpandtab: */
+/* vim: set ts=4 sw=4 noai noet: */

@@ -32,4 +32,4 @@ void libtime_init(void)
 	libtime_init_sleep();
 }
 
-/* vim: set ts=4 sw=4 noai noexpandtab: */
+/* vim: set ts=4 sw=4 noai noet: */

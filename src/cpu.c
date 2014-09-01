@@ -100,4 +100,4 @@ uint64_t libtime_cpu_to_wall(uint64_t clock)
 	return (clock * 1000ULL) / cycles_per_usec;
 }
 
-/* vim: set ts=4 sw=4 noai noexpandtab: */
+/* vim: set ts=4 sw=4 noai noet: */
