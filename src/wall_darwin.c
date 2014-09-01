@@ -21,15 +21,22 @@
 
 #include "libtime_internal.h"
 
-extern void libtime_init_cpuclock(void);
-extern void libtime_init_sleep(void);
-extern void libtime_init_wallclock(void);
+#ifdef USE_MACH_CLOCKS
 
-void libtime_init(void)
+#include <mach/mach_time.h>
+
+static mach_timebase_info_data_t timebase;
+
+void libtime_init_wallclock(void)
 {
-	libtime_init_wallclock();
-	libtime_init_cpuclock();
-	libtime_init_sleep();
+	mach_timebase_info(&timebase);
 }
+
+uint64_t libtime_wall(void)
+{
+	return (double)mach_absolute_time() * (double)timebase.numer / (double)timebase.denom;
+}
+
+#endif
 
 /* vim: set ts=4 sw=4 noai noexpandtab: */

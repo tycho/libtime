@@ -21,15 +21,21 @@
 
 #include "libtime_internal.h"
 
-extern void libtime_init_cpuclock(void);
-extern void libtime_init_sleep(void);
-extern void libtime_init_wallclock(void);
+#ifdef USE_POSIX_CLOCKS
 
-void libtime_init(void)
+#include <time.h>
+
+void libtime_init_wallclock(void)
 {
-	libtime_init_wallclock();
-	libtime_init_cpuclock();
-	libtime_init_sleep();
 }
+
+uint64_t libtime_wall(void)
+{
+	struct timespec ts;
+	clock_gettime(LIBTIME_CLOCK_ID, &ts);
+	return (ts.tv_sec * 1000000000ULL) + ts.tv_nsec;
+}
+
+#endif
 
 /* vim: set ts=4 sw=4 noai noexpandtab: */

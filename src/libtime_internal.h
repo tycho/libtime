@@ -19,17 +19,46 @@
  *
  */
 
-#include "libtime_internal.h"
+#include "libtime.h"
+#include "platform.h"
+
+#if defined(TARGET_OS_MACOSX)
+#define USE_MACH_CLOCKS
+#elif defined(TARGET_OS_WINDOWS)
+#define USE_WINDOWS_CLOCKS
+#elif defined(__USE_POSIX199309)
+#define USE_POSIX_CLOCKS
+#else
+#error "Unable to find an appropriate clock source for your platform!"
+#endif
+
+#ifdef USE_POSIX_CLOCKS
+
+#include <time.h>
+
+#ifdef CLOCK_MONOTONIC_RAW
+#ifndef LIBTIME_CLOCK_ID
+#define LIBTIME_CLOCK_ID CLOCK_MONOTONIC_RAW
+#endif
+#endif
+
+#ifdef CLOCK_MONOTONIC
+#ifndef LIBTIME_CLOCK_ID
+#define LIBTIME_CLOCK_ID CLOCK_MONOTONIC
+#endif
+#endif
+
+/* CLOCK_REALTIME is guaranteed by POSIX to exist. */
+#ifndef LIBTIME_CLOCK_ID
+#define LIBTIME_CLOCK_ID CLOCK_REALTIME
+#endif
+
+#endif
+
+#define ELEM_SIZE(x) (sizeof(x) / sizeof(x[0]))
 
 extern void libtime_init_cpuclock(void);
 extern void libtime_init_sleep(void);
 extern void libtime_init_wallclock(void);
-
-void libtime_init(void)
-{
-	libtime_init_wallclock();
-	libtime_init_cpuclock();
-	libtime_init_sleep();
-}
 
 /* vim: set ts=4 sw=4 noai noexpandtab: */

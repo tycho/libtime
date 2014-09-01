@@ -42,13 +42,14 @@ void libtime_init(void);
 
 uint64_t libtime_wall(void);
 
+#if defined(__x86_64__) || defined(__i386__)
+
+#ifdef _MSC_VER
 static inline uint64_t libtime_cpu(void)
 {
-#if defined(__x86_64__) || defined(__i386__)
-#ifdef _MSC_VER
-#  if _MSC_VER > 1200
+#if _MSC_VER > 1200
     return __rdtsc();
-#  else
+#else
 	LARGE_INTEGER ticks;
 	__asm {
 		rdtsc
@@ -56,17 +57,26 @@ static inline uint64_t libtime_cpu(void)
 		mov ticks.LowPart, eax
 	}
 	return ticks.QuadPart;
-#  endif
-#else
-    uint32_t lo, hi;
-
-    __asm__ __volatile__("rdtsc" : "=a" (lo), "=d" (hi));
-    return ((uint64_t) hi << 32ULL) | lo;
-#endif
-#else
-    return libtime_wall();
 #endif
 }
+#else /* _MSC_VER */
+static inline uint64_t libtime_cpu(void)
+{
+    uint32_t lo, hi;
+    __asm__ __volatile__("rdtsc" : "=a" (lo), "=d" (hi));
+    return ((uint64_t) hi << 32ULL) | lo;
+}
+#endif
+
+#else /* defined(__x86_64__) || defined(__i386__) */
+
+static inline uint64_t libtime_cpu(void)
+{
+	return libtime_wall();
+}
+
+#endif
+
 uint64_t libtime_cpu_to_wall(uint64_t clock);
 
 void libtime_nanosleep(int64_t ns);

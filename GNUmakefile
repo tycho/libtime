@@ -3,7 +3,7 @@ include common.mk
 CFLAGS  += -Iinclude -Iprivate
 
 LIB     := libtime.a
-SOURCES := src/libtime.c
+SOURCES := src/cpu.c src/sleep.c src/wall_darwin.c src/wall_posix.c src/wall_windows.c src/libtime.c
 OBJECTS := $(SOURCES:%.c=%.o)
 
 all: $(LIB)

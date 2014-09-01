@@ -21,15 +21,24 @@
 
 #include "libtime_internal.h"
 
-extern void libtime_init_cpuclock(void);
-extern void libtime_init_sleep(void);
-extern void libtime_init_wallclock(void);
+#ifdef USE_WINDOWS_CLOCKS
 
-void libtime_init(void)
+#include <windows.h>
+
+static LARGE_INTEGER perf_frequency;
+
+void libtime_init_wallclock(void)
 {
-	libtime_init_wallclock();
-	libtime_init_cpuclock();
-	libtime_init_sleep();
+	QueryPerformanceFrequency(&perf_frequency);
 }
+
+uint64_t libtime_wall(void)
+{
+	LARGE_INTEGER counter;
+	QueryPerformanceCounter(&counter);
+	return (counter.QuadPart * 1000000000) / perf_frequency.QuadPart;
+}
+
+#endif
 
 /* vim: set ts=4 sw=4 noai noexpandtab: */
