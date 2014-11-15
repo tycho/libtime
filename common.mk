@@ -9,8 +9,6 @@ ifneq ($(findstring $(MAKEFLAGS),s),s)
 ifndef V
     QUIET_AR        = @echo '   ' AR   $@;
     QUIET_CC        = @echo '   ' CC   $@;
-    QUIET_CXX       = @echo '   ' CXX  $@;
-    QUIET_NVCC      = @echo '   ' NVCC $@;
     QUIET_LINK      = @echo '   ' LD   $@;
     QUIET           = @
     export V
