@@ -1,7 +1,8 @@
 all:
 
 SHELL      := /bin/bash
-MAKEFLAGS  += -Rr
+# Don't use -Rr or else the CC?= will fail.
+#MAKEFLAGS  += -Rr
 .SUFFIXES:
 
 ifneq ($(findstring $(MAKEFLAGS),s),s)
@@ -46,17 +47,17 @@ define cc-option-add-closure
 endef
 
 ifneq ($(shell type -P clang),)
-CC         := clang
+CC         ?= clang
 else
-CC         := gcc
+CC         ?= gcc
 endif
 
-LINK       := $(CC)
-AR         := ar rcu
+LINK       ?= $(CC)
+AR         ?= ar
 RM         := rm -f
 CPPFLAGS   := -Wall -Werror
 CFOPTIMIZE := -O2
-CFLAGS     := $(CFOPTIMIZE)
+CFLAGS     ?= $(CFOPTIMIZE)
 $(call cc-option-add,CFLAGS,CC,-std=gnu11)
 $(call cc-option-add,CFLAGS,CC,-fno-strict-aliasing)
 CFLAGS     += $(CPPFLAGS)
