@@ -17,4 +17,8 @@ $(LIB): $(OBJECTS)
 %.o: %.c .cflags
 	$(QUIET_CC)$(CC) $(CFLAGS) -c -o $@ $<
 
+install:
+	install -Dm0644 include/libtime.h $(DESTDIR)$(includedir)/libtime.h
+	install -Dm0644 libtime.a $(DESTDIR)$(libdir)/libtime.a
+
 .PHONY: all clean

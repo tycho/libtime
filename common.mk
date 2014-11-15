@@ -69,6 +69,11 @@ CFLAGS     += -Wa,-q
 endif
 endif
 
+prefix     ?= /usr
+bindir     ?= $(prefix)/bin
+libdir     ?= $(prefix)/lib
+includedir ?= $(prefix)/include
+
 ifeq (,$(findstring clean,$(MAKECMDGOALS)))
 
 TRACK_CFLAGS = $(subst ','\'',$(CC) $(LINK) $(CFLAGS) $(LDFLAGS))
