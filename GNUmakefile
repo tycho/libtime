@@ -11,6 +11,8 @@ all: $(LIB)
 clean:
 	$(RM) $(LIB) $(OBJECTS)
 
+distclean: clean
+
 $(LIB): $(OBJECTS)
 	$(QUIET_AR)$(AR) rcu $@ $^
 
@@ -21,4 +23,4 @@ install:
 	install -Dm0644 include/libtime.h $(DESTDIR)$(includedir)/libtime.h
 	install -Dm0644 libtime.a $(DESTDIR)$(libdir)/libtime.a
 
-.PHONY: all clean
+.PHONY: all clean distclean
