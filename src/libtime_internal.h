@@ -36,12 +36,6 @@
 
 #include <time.h>
 
-#ifdef CLOCK_MONOTONIC_RAW
-#ifndef LIBTIME_CLOCK_ID
-#define LIBTIME_CLOCK_ID CLOCK_MONOTONIC_RAW
-#endif
-#endif
-
 #ifdef CLOCK_MONOTONIC
 #ifndef LIBTIME_CLOCK_ID
 #define LIBTIME_CLOCK_ID CLOCK_MONOTONIC
