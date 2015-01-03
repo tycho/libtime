@@ -54,7 +54,7 @@ LINK       ?= $(CC)
 AR         ?= ar rcu
 RM         := rm -f
 CPPFLAGS   := -Wall -Werror
-CFOPTIMIZE := -O2
+CFOPTIMIZE ?= -O2
 CFLAGS     ?= $(CFOPTIMIZE)
 $(call cc-option-add,CFLAGS,CC,-std=gnu11)
 $(call cc-option-add,CFLAGS,CC,-fno-strict-aliasing)
