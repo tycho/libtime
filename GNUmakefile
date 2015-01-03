@@ -14,7 +14,7 @@ clean:
 distclean: clean
 
 $(LIB): $(OBJECTS)
-	$(QUIET_AR)$(AR) rcu $@ $^
+	$(QUIET_AR)$(AR) $@ $^
 
 %.o: %.c .cflags
 	$(QUIET_CC)$(CC) $(CFLAGS) -c -o $@ $<

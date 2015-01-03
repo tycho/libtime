@@ -51,7 +51,7 @@ CC         ?= gcc
 endif
 
 LINK       ?= $(CC)
-AR         ?= ar
+AR         ?= ar rcu
 RM         := rm -f
 CPPFLAGS   := -Wall -Werror
 CFOPTIMIZE := -O2
