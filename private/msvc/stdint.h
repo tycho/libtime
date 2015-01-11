@@ -34,7 +34,7 @@
 #error "Use this header only with Microsoft Visual C++ compilers!"
 #endif // _MSC_VER ]
 
-#ifndef _MSC_STDINT_H_ // [
+#if !defined(_MSC_STDINT_H_) && !defined(_PSTDINT_H_INCLUDED) // [
 #define _MSC_STDINT_H_
 
 #if _MSC_VER > 1000

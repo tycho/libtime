@@ -26,7 +26,7 @@
 
 #ifdef _MSC_VER
 #  if _MSC_VER > 1200
-#    include <intrin.h>
+//#    include <intrin.h>
 #    pragma intrinsic(__rdtsc)
 #  else
 #    include <windows.h>
