@@ -9,7 +9,7 @@ OBJECTS := $(SOURCES:%.c=%.o)
 all: $(LIB)
 
 clean:
-	$(RM) $(LIB) $(OBJECTS)
+	$(RM) $(LIB) $(OBJECTS) .cflags
 
 distclean: clean
 
