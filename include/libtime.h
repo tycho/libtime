@@ -25,7 +25,7 @@
 #define __included_libtime_h
 
 #ifdef _MSC_VER
-#  if _MSC_VER > 1200
+#  if _MSC_VER >= 1400
 //#    include <intrin.h>
 #    pragma intrinsic(__rdtsc)
 #  else
