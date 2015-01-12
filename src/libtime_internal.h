@@ -32,23 +32,6 @@
 #error "Unable to find an appropriate clock source for your platform!"
 #endif
 
-#ifdef USE_POSIX_CLOCKS
-
-#include <time.h>
-
-#ifdef CLOCK_MONOTONIC
-#ifndef LIBTIME_CLOCK_ID
-#define LIBTIME_CLOCK_ID CLOCK_MONOTONIC
-#endif
-#endif
-
-/* CLOCK_REALTIME is guaranteed by POSIX to exist. */
-#ifndef LIBTIME_CLOCK_ID
-#define LIBTIME_CLOCK_ID CLOCK_REALTIME
-#endif
-
-#endif
-
 #define ELEM_SIZE(x) (sizeof(x) / sizeof(x[0]))
 
 extern void libtime_init_cpuclock(void);

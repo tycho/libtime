@@ -23,16 +23,52 @@
 
 #ifdef USE_POSIX_CLOCKS
 
+#include <errno.h>
 #include <time.h>
+
+static const clockid_t clock_sources[] = {
+#ifdef CLOCK_MONOTONIC_RAW
+	CLOCK_MONOTONIC_RAW,
+#endif
+#ifdef CLOCK_MONOTONIC
+	CLOCK_MONOTONIC,
+#endif
+	CLOCK_REALTIME
+};
+static clockid_t clock_id;
+
+static void _libtime_select_clocksource(void)
+{
+	struct timespec ts;
+	for (int i = 0; i < ELEM_SIZE(clock_sources); i++) {
+		clock_id = clock_sources[i];
+retry:
+		if (clock_gettime(clock_id, &ts) == 0) {
+			/* Success! */
+			return;
+		} else {
+			switch (errno) {
+			case EINTR:
+				/* Interrupted prematurely, retry the call. */
+				goto retry;
+			case EINVAL:
+				/* Try the next clock in line... */
+				break;
+			}
+		}
+	}
+}
+
 
 void libtime_init_wallclock(void)
 {
+	_libtime_select_clocksource();
 }
 
 uint64_t libtime_wall(void)
 {
 	struct timespec ts;
-	clock_gettime(LIBTIME_CLOCK_ID, &ts);
+	clock_gettime(clock_id, &ts);
 	return (ts.tv_sec * 1000000000ULL) + ts.tv_nsec;
 }
 

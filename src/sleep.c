@@ -25,28 +25,70 @@
 #include <mach/mach_time.h>
 #elif defined(USE_WINDOWS_CLOCKS)
 #include <windows.h>
+#elif defined(USE_POSIX_CLOCKS)
+#include <errno.h>
 #endif
 #include <time.h>
 #include <math.h>
 
 static int64_t max_sleep_ns;
 static uint64_t sleep_overhead_clk;
+#if defined(USE_POSIX_CLOCKS)
+static const clockid_t clock_sources[] = {
+#ifdef CLOCK_MONOTONIC_RAW
+	CLOCK_MONOTONIC_RAW,
+#endif
+#ifdef CLOCK_MONOTONIC
+	CLOCK_MONOTONIC,
+#endif
+	CLOCK_REALTIME
+};
+static clockid_t clock_id;
+#endif
 
-static inline void _libtime_nanosleep(void)
+static inline int _libtime_nanosleep(void)
 {
 #if defined(USE_WINDOWS_CLOCKS)
 	Sleep(1);
+	return 0;
 #else
 	struct timespec ts;
 	ts.tv_sec = 0;
 	ts.tv_nsec = 0;
 #if defined(USE_MACH_CLOCKS)
-	nanosleep(&ts, NULL);
+	return nanosleep(&ts, NULL);
 #elif defined(USE_POSIX_CLOCKS)
-	clock_nanosleep(LIBTIME_CLOCK_ID, 0, &ts, NULL);
+	return clock_nanosleep(clock_id, 0, &ts, NULL);
 #else
 #error "No known sleep function for this platform"
 #endif
+#endif
+}
+
+static void _libtime_select_clocksource(void)
+{
+#if defined(USE_POSIX_CLOCKS)
+	/* Some clock sources can't be used by clock_nanosleep, so we iterate
+	 * through the clock sources in priority order until we find one that
+	 * works.
+	 */
+	for (int i = 0; i < ELEM_SIZE(clock_sources); i++) {
+		clock_id = clock_sources[i];
+retry:
+		if (_libtime_nanosleep() == 0) {
+			/* Success! */
+			return;
+		} else {
+			switch (errno) {
+			case EINTR:
+				/* Interrupted prematurely, retry the call. */
+				goto retry;
+			case EINVAL:
+				/* Try the next clock in line... */
+				break;
+			}
+		}
+	}
 #endif
 }
 
@@ -55,6 +97,8 @@ void libtime_init_sleep(void)
 	uint32_t i, j;
 	uint32_t samples, runs, shift;
 	uint64_t s, e, min, max;
+
+	_libtime_select_clocksource();
 
 #if defined(USE_WINDOWS_CLOCKS)
 	timeBeginPeriod(1);
