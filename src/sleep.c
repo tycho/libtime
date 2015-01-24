@@ -25,6 +25,7 @@
 #include <mach/mach_time.h>
 #elif defined(USE_WINDOWS_CLOCKS)
 #include <windows.h>
+#pragma comment (lib, "winmm.lib")
 #endif
 #include <time.h>
 #include <math.h>
