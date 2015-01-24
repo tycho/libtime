@@ -25,7 +25,9 @@
 #include <mach/mach_time.h>
 #elif defined(USE_WINDOWS_CLOCKS)
 #include <windows.h>
+#ifdef _MSC_VER
 #pragma comment (lib, "winmm.lib")
+#endif
 #elif defined(USE_POSIX_CLOCKS)
 #include <errno.h>
 #endif
