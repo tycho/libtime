@@ -53,7 +53,7 @@ endif
 LINK       ?= $(CC)
 AR         ?= ar rcu
 RM         := rm -f
-CPPFLAGS   := -Wall -Werror
+CPPFLAGS   := -Wall
 CFOPTIMIZE ?= -O2
 CFLAGS     ?= $(CFOPTIMIZE)
 $(call cc-option-add,CFLAGS,CC,-std=gnu11)
