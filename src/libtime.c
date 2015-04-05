@@ -19,13 +19,10 @@
  *
  */
 
+#include "libtime.h"
 #include "libtime_internal.h"
 
-extern void libtime_init_cpuclock(void);
-extern void libtime_init_sleep(void);
-extern void libtime_init_wallclock(void);
-
-void libtime_init(void)
+LIBTIME_DLL_PUBLIC void libtime_init(void)
 {
 	libtime_init_wallclock();
 	libtime_init_cpuclock();

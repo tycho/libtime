@@ -19,6 +19,7 @@
  *
  */
 
+#include "libtime.h"
 #include "libtime_internal.h"
 
 #if defined(USE_MACH_CLOCKS)
@@ -95,7 +96,7 @@ retry:
 #endif
 }
 
-void libtime_init_sleep(void)
+LIBTIME_DLL_LOCAL void libtime_init_sleep(void)
 {
 	uint32_t i, j;
 	uint32_t samples, runs, shift;
@@ -163,7 +164,7 @@ void libtime_init_sleep(void)
 	sleep_overhead_clk = (min + samples - 1) >> shift;
 }
 
-void libtime_nanosleep(int64_t ns)
+LIBTIME_DLL_PUBLIC void libtime_nanosleep(int64_t ns)
 {
 	uint64_t s, e;
 	uint64_t ns_elapsed;

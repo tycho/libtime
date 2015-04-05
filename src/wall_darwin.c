@@ -19,6 +19,7 @@
  *
  */
 
+#include "libtime.h"
 #include "libtime_internal.h"
 
 #ifdef USE_MACH_CLOCKS
@@ -27,12 +28,12 @@
 
 static mach_timebase_info_data_t timebase;
 
-void libtime_init_wallclock(void)
+LIBTIME_DLL_LOCAL void libtime_init_wallclock(void)
 {
 	mach_timebase_info(&timebase);
 }
 
-uint64_t libtime_wall(void)
+LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void)
 {
 	return (double)mach_absolute_time() * (double)timebase.numer / (double)timebase.denom;
 }

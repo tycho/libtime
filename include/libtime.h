@@ -24,23 +24,53 @@
 #ifndef __included_libtime_h
 #define __included_libtime_h
 
+#ifndef __STATIC__
+  #if defined _WIN32 || defined __CYGWIN__
+    #ifdef LIBTIME_BUILDING_DLL
+      #ifdef __GNUC__
+        #define LIBTIME_DLL_PUBLIC __attribute__ ((dllexport))
+      #else
+        #define LIBTIME_DLL_PUBLIC __declspec(dllexport) // Note: actually gcc seems to also supports this syntax.
+      #endif
+    #else
+      #ifdef __GNUC__
+        #define LIBTIME_DLL_PUBLIC __attribute__ ((dllimport))
+      #else
+        #define LIBTIME_DLL_PUBLIC __declspec(dllimport) // Note: actually gcc seems to also supports this syntax.
+      #endif
+    #endif
+    #define LIBTIME_DLL_LOCAL
+  #else
+    #if __GNUC__ >= 4
+      #define LIBTIME_DLL_PUBLIC __attribute__ ((visibility ("default")))
+      #define LIBTIME_DLL_LOCAL  __attribute__ ((visibility ("hidden")))
+    #else
+      #define LIBTIME_DLL_PUBLIC
+      #define LIBTIME_DLL_LOCAL
+    #endif
+  #endif
+#else
+  #define LIBTIME_DLL_PUBLIC
+  #define LIBTIME_DLL_LOCAL
+#endif
+
 #ifdef _MSC_VER
-#  if _MSC_VER >= 1400
-//#    include <intrin.h>
-#    pragma intrinsic(__rdtsc)
-#  else
-#    include <windows.h>
-#  endif
-#  define inline __inline
+  #if _MSC_VER >= 1400
+  //#include <intrin.h>
+    #pragma intrinsic(__rdtsc)
+  #else
+    #include <windows.h>
+  #endif
+  #define inline __inline
 #endif
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void libtime_init(void);
+extern LIBTIME_DLL_PUBLIC void libtime_init(void);
 
-uint64_t libtime_wall(void);
+extern LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void);
 
 #if defined(__x86_64__) || defined(__i386__)
 
@@ -77,9 +107,9 @@ static inline uint64_t libtime_cpu(void)
 
 #endif
 
-uint64_t libtime_cpu_to_wall(uint64_t clock);
+extern LIBTIME_DLL_PUBLIC uint64_t libtime_cpu_to_wall(uint64_t clock);
 
-void libtime_nanosleep(int64_t ns);
+extern LIBTIME_DLL_PUBLIC void libtime_nanosleep(int64_t ns);
 
 #ifdef __cplusplus
 }

@@ -19,6 +19,7 @@
  *
  */
 
+#include "libtime.h"
 #include "libtime_internal.h"
 
 #include <math.h>
@@ -57,7 +58,7 @@ static uint32_t get_cycles_per_usec(void)
 	return (c_e - c_s + 127) >> 7;
 }
 
-void libtime_init_cpuclock(void)
+LIBTIME_DLL_LOCAL void libtime_init_cpuclock(void)
 {
 	double delta, mean, S;
 	uint32_t avg, cycles[10];
@@ -95,7 +96,7 @@ void libtime_init_cpuclock(void)
 	cycles_per_usec = avg;
 }
 
-uint64_t libtime_cpu_to_wall(uint64_t clock)
+LIBTIME_DLL_PUBLIC uint64_t libtime_cpu_to_wall(uint64_t clock)
 {
 	return (clock * 1000ULL) / cycles_per_usec;
 }

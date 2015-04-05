@@ -19,6 +19,7 @@
  *
  */
 
+#include "libtime.h"
 #include "libtime_internal.h"
 
 #ifdef USE_WINDOWS_CLOCKS
@@ -27,12 +28,12 @@
 
 static LARGE_INTEGER perf_frequency;
 
-void libtime_init_wallclock(void)
+LIBTIME_DLL_LOCAL void libtime_init_wallclock(void)
 {
 	QueryPerformanceFrequency(&perf_frequency);
 }
 
-uint64_t libtime_wall(void)
+LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void)
 {
 	LARGE_INTEGER counter;
 	QueryPerformanceCounter(&counter);

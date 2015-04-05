@@ -19,6 +19,7 @@
  *
  */
 
+#include "libtime.h"
 #include "libtime_internal.h"
 
 #ifdef USE_POSIX_CLOCKS
@@ -60,12 +61,12 @@ retry:
 }
 
 
-void libtime_init_wallclock(void)
+LIBTIME_DLL_LOCAL void libtime_init_wallclock(void)
 {
 	_libtime_select_clocksource();
 }
 
-uint64_t libtime_wall(void)
+LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void)
 {
 	struct timespec ts;
 	clock_gettime(clock_id, &ts);
