@@ -8,6 +8,7 @@ SHELL      := /bin/bash
 ifneq ($(findstring $(MAKEFLAGS),s),s)
 ifndef V
     QUIET_AR        = @echo '   ' AR   $@;
+    QUIET_RANLIB    = @echo '   ' RANLIB $@;
     QUIET_CC        = @echo '   ' CC   $@;
     QUIET_LINK      = @echo '   ' LD   $@;
     QUIET           = @
@@ -52,6 +53,7 @@ endif
 
 LINK       ?= $(CC)
 AR         ?= ar rcu
+RANLIB     ?= ranlib
 RM         := rm -f
 CPPFLAGS   := -Wall
 CFOPTIMIZE ?= -O2
