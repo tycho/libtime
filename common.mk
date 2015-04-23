@@ -58,7 +58,7 @@ RM         := rm -f
 CPPFLAGS   := -Wall
 CFOPTIMIZE ?= -O2
 CFLAGS     ?= $(CFOPTIMIZE)
-$(call cc-option-add,CFLAGS,CC,-std=gnu11)
+CFLAGS     += $(call cc-option,$(CC),-std=gnu11,-std=gnu99)
 $(call cc-option-add,CFLAGS,CC,-fno-strict-aliasing)
 CFLAGS     += $(CPPFLAGS)
 LDFLAGS    :=
