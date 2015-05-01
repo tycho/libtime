@@ -30,10 +30,18 @@
 extern "C" {
 #endif
 
+/* Initialize the libtime library. Do this before any of the other libtime_*
+ * calls.
+ */
 extern LIBTIME_DLL_PUBLIC void libtime_init(void);
 
+/* Read the wall clock, return the time in nanoseconds. */
 extern LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void);
 
+/* Read the CPU clock, return the time in an architecture-specific unit
+ * (usually clock cycles). Value can be converted to nanoseconds with
+ * libtime_cpu_to_wall().
+ */
 #if defined(__x86_64__) || defined(__i386__)
 
 #ifdef _MSC_VER
@@ -69,8 +77,12 @@ static inline uint64_t libtime_cpu(void)
 
 #endif
 
+/* Converts libtime_cpu() values to nanoseconds. */
 extern LIBTIME_DLL_PUBLIC uint64_t libtime_cpu_to_wall(uint64_t clock);
 
+/* A high-precision sleep function. Attempts to sleep for exactly 'ns'
+ * nanoseconds. Will never sleep for less.
+ */
 extern LIBTIME_DLL_PUBLIC void libtime_nanosleep(int64_t ns);
 
 #ifdef __cplusplus
