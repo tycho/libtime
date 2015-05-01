@@ -30,10 +30,26 @@
 extern "C" {
 #endif
 
+typedef enum {
+	CLOCK_CPU = 0,
+	CLOCK_WALL = 1,
+	CLOCK_WALL_FAST = 2,
+
+	/* Prefer clock with cheapest cost to read. */
+	CLOCK_FAST = 3,
+	/* Prefer clock with highest precision. */
+	CLOCK_PRECISE = 4,
+
+	CLOCK_TYPE_MAX = CLOCK_PRECISE,
+} ClockType;
+
 /* Initialize the libtime library. Do this before any of the other libtime_*
  * calls.
  */
 extern LIBTIME_DLL_PUBLIC void libtime_init(void);
+
+/* Read the specified clock, return the current timestamp in nanoseconds. */
+extern LIBTIME_DLL_PUBLIC uint64_t libtime_read(ClockType type);
 
 /* Read the wall clock, return the time in nanoseconds. */
 extern LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void);

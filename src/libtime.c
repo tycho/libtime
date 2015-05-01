@@ -22,11 +22,35 @@
 #include "libtime.h"
 #include "libtime_internal.h"
 
+typedef uint64_t (*clock_pfn)(void);
+
+clock_pfn clocks[CLOCK_TYPE_MAX + 1];
+
 void libtime_init(void)
 {
+	/* Safe defaults */
+	clocks[CLOCK_CPU] = libtime_cpu_ns;
+	clocks[CLOCK_WALL] = libtime_wall;
+	clocks[CLOCK_WALL_FAST] = libtime_wall_fast;
+	clocks[CLOCK_FAST] = libtime_wall_fast;
+	clocks[CLOCK_PRECISE] = libtime_wall;
+
 	libtime_init_wallclock();
-	libtime_init_cpuclock();
+
+	/* If we can use the CPU clock, then it should replace CLOCK_FAST. If not,
+	 * we should replace CLOCK_CPU with CLOCK_WALL
+	 */
+	if (!libtime_init_cpuclock())
+		clocks[CLOCK_FAST] = clocks[CLOCK_CPU];
+	else
+		clocks[CLOCK_CPU] = clocks[CLOCK_WALL];
+
 	libtime_init_sleep();
+}
+
+uint64_t libtime_read(ClockType type)
+{
+	return (*clocks[type])();
 }
 
 /* vim: set ts=4 sw=4 noai noet: */
