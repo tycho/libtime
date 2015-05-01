@@ -52,7 +52,8 @@ CC         ?= gcc
 endif
 
 LINK       ?= $(CC)
-AR         ?= ar rcu
+AR         ?= ar
+ARFLAGS    := rcu
 RANLIB     ?= ranlib
 RM         := rm -f
 CPPFLAGS   := -Wall

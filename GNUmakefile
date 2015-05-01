@@ -14,7 +14,7 @@ clean:
 distclean: clean
 
 $(LIB): $(OBJECTS)
-	$(QUIET_AR)$(AR) $@ $^
+	$(QUIET_AR)$(AR) $(ARFLAGS) $@ $^
 	$(QUIET_RANLIB)$(RANLIB) $@
 
 %.o: %.c .cflags
