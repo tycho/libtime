@@ -28,9 +28,10 @@
 
 static mach_timebase_info_data_t timebase;
 
-void libtime_init_wallclock(void)
+int libtime_init_wallclock(void)
 {
 	mach_timebase_info(&timebase);
+	return 0;
 }
 
 uint64_t libtime_wall(void)

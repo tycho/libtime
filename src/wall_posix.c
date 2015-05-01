@@ -38,7 +38,7 @@ static const clockid_t clock_sources[] = {
 };
 static clockid_t clock_id;
 
-static void _libtime_select_clocksource(void)
+int libtime_init_wallclock(void)
 {
 	struct timespec ts;
 	for (int i = 0; i < ELEM_SIZE(clock_sources); i++) {
@@ -46,7 +46,7 @@ static void _libtime_select_clocksource(void)
 retry:
 		if (clock_gettime(clock_id, &ts) == 0) {
 			/* Success! */
-			return;
+			return 0;
 		} else {
 			switch (errno) {
 			case EINTR:
@@ -58,12 +58,7 @@ retry:
 			}
 		}
 	}
-}
-
-
-void libtime_init_wallclock(void)
-{
-	_libtime_select_clocksource();
+	return 1;
 }
 
 uint64_t libtime_wall(void)

@@ -96,7 +96,7 @@ retry:
 #endif
 }
 
-void libtime_init_sleep(void)
+int libtime_init_sleep(void)
 {
 	uint32_t i, j;
 	uint32_t samples, runs, shift;
@@ -162,6 +162,8 @@ void libtime_init_sleep(void)
 			min = (e - s);
 	}
 	sleep_overhead_clk = (min + samples - 1) >> shift;
+
+	return 0;
 }
 
 void libtime_nanosleep(int64_t ns)

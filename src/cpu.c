@@ -60,7 +60,7 @@ static uint32_t get_cycles_per_usec(void)
 
 #define NR_TIME_ITERS 50
 
-void libtime_init_cpuclock(void)
+int libtime_init_cpuclock(void)
 {
 	double delta, mean, S;
 	uint32_t avg, cycles[NR_TIME_ITERS];
@@ -96,6 +96,8 @@ void libtime_init_cpuclock(void)
 	avg = (avg + 5) / 10;
 
 	cycles_per_usec = avg;
+
+	return 0;
 }
 
 uint64_t libtime_cpu_to_wall(uint64_t clock)

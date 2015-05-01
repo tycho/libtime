@@ -36,9 +36,9 @@
 
 #include "libtime_begin.h"
 
-extern LIBTIME_DLL_LOCAL void libtime_init_cpuclock(void);
-extern LIBTIME_DLL_LOCAL void libtime_init_sleep(void);
-extern LIBTIME_DLL_LOCAL void libtime_init_wallclock(void);
+extern LIBTIME_DLL_LOCAL int libtime_init_cpuclock(void);
+extern LIBTIME_DLL_LOCAL int libtime_init_sleep(void);
+extern LIBTIME_DLL_LOCAL int libtime_init_wallclock(void);
 
 #include "libtime_end.h"
 
