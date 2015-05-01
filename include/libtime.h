@@ -38,6 +38,9 @@ extern LIBTIME_DLL_PUBLIC void libtime_init(void);
 /* Read the wall clock, return the time in nanoseconds. */
 extern LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void);
 
+/* Read the (less precise) wall clock, return the time in nanoseconds. */
+extern LIBTIME_DLL_PUBLIC uint64_t libtime_wall_fast(void);
+
 /* Read the CPU clock, return the time in an architecture-specific unit
  * (usually clock cycles). Value can be converted to nanoseconds with
  * libtime_cpu_to_wall().

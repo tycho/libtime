@@ -27,7 +27,7 @@
 #include <errno.h>
 #include <time.h>
 
-static const clockid_t clock_sources[] = {
+static const clockid_t precise_clocks[] = {
 #ifdef CLOCK_MONOTONIC_RAW
 	CLOCK_MONOTONIC_RAW,
 #endif
@@ -36,15 +36,29 @@ static const clockid_t clock_sources[] = {
 #endif
 	CLOCK_REALTIME
 };
-static clockid_t clock_id;
+static const clockid_t fast_clocks[] = {
+#ifdef CLOCK_MONOTONIC_COARSE
+	CLOCK_MONOTONIC_COARSE,
+#endif
+#ifdef CLOCK_MONOTONIC_RAW
+	CLOCK_MONOTONIC_RAW,
+#endif
+#ifdef CLOCK_MONOTONIC
+	CLOCK_MONOTONIC,
+#endif
+	CLOCK_REALTIME
+};
 
-int libtime_init_wallclock(void)
+static clockid_t precise_clock;
+static clockid_t fast_clock;
+
+static int select_clocksource(clockid_t *target, const clockid_t *sources, size_t n)
 {
 	struct timespec ts;
-	for (int i = 0; i < ELEM_SIZE(clock_sources); i++) {
-		clock_id = clock_sources[i];
+	for (int i = 0; i < n; i++) {
+		*target = sources[i];
 retry:
-		if (clock_gettime(clock_id, &ts) == 0) {
+		if (clock_gettime(*target, &ts) == 0) {
 			/* Success! */
 			return 0;
 		} else {
@@ -61,10 +75,25 @@ retry:
 	return 1;
 }
 
+int libtime_init_wallclock(void)
+{
+	int r = 0;
+	r += select_clocksource(&precise_clock, precise_clocks, ELEM_SIZE(precise_clocks));
+	r += select_clocksource(&fast_clock, fast_clocks, ELEM_SIZE(fast_clocks));
+	return r;
+}
+
 uint64_t libtime_wall(void)
 {
 	struct timespec ts;
-	clock_gettime(clock_id, &ts);
+	clock_gettime(precise_clock, &ts);
+	return (ts.tv_sec * 1000000000ULL) + ts.tv_nsec;
+}
+
+uint64_t libtime_wall_fast(void)
+{
+	struct timespec ts;
+	clock_gettime(fast_clock, &ts);
 	return (ts.tv_sec * 1000000000ULL) + ts.tv_nsec;
 }
 
