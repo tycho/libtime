@@ -77,6 +77,10 @@ int libtime_init_cpuclock(void)
 		}
 	}
 
+	/* Is the clock broken? */
+	if (!cycles[0] && !cycles[NR_TIME_ITERS - 1])
+		return 1;
+
 	S = sqrt(S / (NR_TIME_ITERS - 1.0));
 
 	samples = avg = 0;
