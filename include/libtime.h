@@ -47,6 +47,10 @@ static inline uint64_t libtime_cpu(void);
 /* Converts libtime_cpu() values to nanoseconds. */
 extern LIBTIME_DLL_PUBLIC uint64_t libtime_cpu_to_wall(uint64_t clock);
 
+/* Read the CPU clock, return the timestamp in nanoseconds.
+ */
+extern LIBTIME_DLL_PUBLIC uint64_t libtime_cpu_ns(void);
+
 /* A high-precision sleep function. Attempts to sleep for exactly 'ns'
  * nanoseconds. Will never sleep for less.
  */
