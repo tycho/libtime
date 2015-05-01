@@ -91,7 +91,7 @@ LIBTIME_DLL_LOCAL void libtime_init_cpuclock(void)
 	mean /= 10.0;
 
 	avg /= samples;
-	avg = (avg + 9) / 10;
+	avg = (avg + 5) / 10;
 
 	cycles_per_usec = avg;
 }
