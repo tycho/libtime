@@ -42,40 +42,7 @@ extern LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void);
  * (usually clock cycles). Value can be converted to nanoseconds with
  * libtime_cpu_to_wall().
  */
-#if defined(__x86_64__) || defined(__i386__)
-
-#ifdef _MSC_VER
-static inline uint64_t libtime_cpu(void)
-{
-#if _MSC_VER > 1200
-    return __rdtsc();
-#else
-	LARGE_INTEGER ticks;
-	__asm {
-		rdtsc
-		mov ticks.HighPart, edx
-		mov ticks.LowPart, eax
-	}
-	return ticks.QuadPart;
-#endif
-}
-#else /* _MSC_VER */
-static inline uint64_t libtime_cpu(void)
-{
-    uint32_t lo, hi;
-    __asm__ __volatile__("rdtsc" : "=a" (lo), "=d" (hi));
-    return ((uint64_t) hi << 32ULL) | lo;
-}
-#endif
-
-#else /* defined(__x86_64__) || defined(__i386__) */
-
-static inline uint64_t libtime_cpu(void)
-{
-	return libtime_wall();
-}
-
-#endif
+static inline uint64_t libtime_cpu(void);
 
 /* Converts libtime_cpu() values to nanoseconds. */
 extern LIBTIME_DLL_PUBLIC uint64_t libtime_cpu_to_wall(uint64_t clock);
@@ -84,6 +51,8 @@ extern LIBTIME_DLL_PUBLIC uint64_t libtime_cpu_to_wall(uint64_t clock);
  * nanoseconds. Will never sleep for less.
  */
 extern LIBTIME_DLL_PUBLIC void libtime_nanosleep(int64_t ns);
+
+#include "libtime_cpu.h"
 
 #ifdef __cplusplus
 }
