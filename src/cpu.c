@@ -58,15 +58,17 @@ static uint32_t get_cycles_per_usec(void)
 	return (c_e - c_s + 127) >> 7;
 }
 
+#define NR_TIME_ITERS 50
+
 void libtime_init_cpuclock(void)
 {
 	double delta, mean, S;
-	uint32_t avg, cycles[10];
+	uint32_t avg, cycles[NR_TIME_ITERS];
 	int i, samples;
 
 	cycles[0] = get_cycles_per_usec();
 	S = delta = mean = 0.0;
-	for (i = 0; i < ELEM_SIZE(cycles); i++) {
+	for (i = 0; i < NR_TIME_ITERS; i++) {
 		cycles[i] = get_cycles_per_usec();
 		delta = cycles[i] - mean;
 		if (delta) {
@@ -75,10 +77,10 @@ void libtime_init_cpuclock(void)
 		}
 	}
 
-	S = sqrt(S / (ELEM_SIZE(cycles) - 1.0));
+	S = sqrt(S / (NR_TIME_ITERS - 1.0));
 
 	samples = avg = 0;
-	for (i = 0; i < ELEM_SIZE(cycles); i++) {
+	for (i = 0; i < NR_TIME_ITERS; i++) {
 		double this = cycles[i];
 
 		if ((fmax(this, mean) - fmin(this, mean)) > S)
@@ -87,7 +89,7 @@ void libtime_init_cpuclock(void)
 		avg += this;
 	}
 
-	S /= (double)ELEM_SIZE(cycles);
+	S /= (double)NR_TIME_ITERS;
 	mean /= 10.0;
 
 	avg /= samples;
