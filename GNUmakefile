@@ -5,6 +5,7 @@ CFLAGS  += -D__STATIC__ -Iinclude -Iprivate
 LIB     := libtime.a
 SOURCES := src/cpu.c src/sleep.c src/wall_darwin.c src/wall_posix.c src/wall_windows.c src/libtime.c
 OBJECTS := $(SOURCES:%.c=%.o)
+HEADERS := $(wildcard include/*.h)
 
 all: $(LIB)
 
@@ -22,7 +23,9 @@ $(LIB): $(OBJECTS)
 
 install:
 	install -dm0755 $(DESTDIR)$(includedir)
-	install -m0644 include/libtime.h $(DESTDIR)$(includedir)/libtime.h
+	cd include; for HEADER in *.h; do \
+		install -m0644 $$HEADER $(DESTDIR)$(includedir)/$$HEADER; \
+	done
 	install -dm0755 $(DESTDIR)$(libdir)
 	install -m0644 libtime.a $(DESTDIR)$(libdir)/libtime.a
 
