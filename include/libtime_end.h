@@ -19,27 +19,7 @@
  *
  */
 
-#include "libtime.h"
-#include "libtime_internal.h"
-
-#ifdef USE_WINDOWS_CLOCKS
-
-#include <windows.h>
-
-static LARGE_INTEGER perf_frequency;
-
-void libtime_init_wallclock(void)
-{
-	QueryPerformanceFrequency(&perf_frequency);
-}
-
-uint64_t libtime_wall(void)
-{
-	LARGE_INTEGER counter;
-	QueryPerformanceCounter(&counter);
-	return (counter.QuadPart * 1000000000) / perf_frequency.QuadPart;
-}
-
-#endif
+#undef LIBTIME_DLL_PUBLIC
+#undef LIBTIME_DLL_LOCAL
 
 /* vim: set ts=4 sw=4 noai noet: */

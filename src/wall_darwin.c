@@ -28,12 +28,12 @@
 
 static mach_timebase_info_data_t timebase;
 
-LIBTIME_DLL_LOCAL void libtime_init_wallclock(void)
+void libtime_init_wallclock(void)
 {
 	mach_timebase_info(&timebase);
 }
 
-LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void)
+uint64_t libtime_wall(void)
 {
 	return (double)mach_absolute_time() * (double)timebase.numer / (double)timebase.denom;
 }

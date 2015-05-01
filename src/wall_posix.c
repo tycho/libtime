@@ -61,12 +61,12 @@ retry:
 }
 
 
-LIBTIME_DLL_LOCAL void libtime_init_wallclock(void)
+void libtime_init_wallclock(void)
 {
 	_libtime_select_clocksource();
 }
 
-LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void)
+uint64_t libtime_wall(void)
 {
 	struct timespec ts;
 	clock_gettime(clock_id, &ts);

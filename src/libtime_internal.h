@@ -34,8 +34,12 @@
 
 #define ELEM_SIZE(x) (sizeof(x) / sizeof(x[0]))
 
+#include "libtime_begin.h"
+
 extern LIBTIME_DLL_LOCAL void libtime_init_cpuclock(void);
 extern LIBTIME_DLL_LOCAL void libtime_init_sleep(void);
 extern LIBTIME_DLL_LOCAL void libtime_init_wallclock(void);
+
+#include "libtime_end.h"
 
 /* vim: set ts=4 sw=4 noai noet: */

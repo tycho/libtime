@@ -96,7 +96,7 @@ retry:
 #endif
 }
 
-LIBTIME_DLL_LOCAL void libtime_init_sleep(void)
+void libtime_init_sleep(void)
 {
 	uint32_t i, j;
 	uint32_t samples, runs, shift;
@@ -164,7 +164,7 @@ LIBTIME_DLL_LOCAL void libtime_init_sleep(void)
 	sleep_overhead_clk = (min + samples - 1) >> shift;
 }
 
-LIBTIME_DLL_PUBLIC void libtime_nanosleep(int64_t ns)
+void libtime_nanosleep(int64_t ns)
 {
 	uint64_t s, e;
 	uint64_t ns_elapsed;

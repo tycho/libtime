@@ -22,7 +22,7 @@
 #include "libtime.h"
 #include "libtime_internal.h"
 
-LIBTIME_DLL_PUBLIC void libtime_init(void)
+void libtime_init(void)
 {
 	libtime_init_wallclock();
 	libtime_init_cpuclock();
