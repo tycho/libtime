@@ -109,6 +109,11 @@ uint64_t libtime_cpu_to_wall(uint64_t clock)
 	return (clock * 1000ULL) / cycles_per_usec;
 }
 
+uint64_t libtime_wall_to_cpu(uint64_t ns)
+{
+	return (ns / 1000ULL) * cycles_per_usec;
+}
+
 uint64_t libtime_cpu_ns(void)
 {
 	return libtime_cpu_to_wall(libtime_cpu());
