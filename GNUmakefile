@@ -23,8 +23,8 @@ $(LIB): $(OBJECTS)
 
 install:
 	install -dm0755 $(DESTDIR)$(includedir)
-	cd include; for HEADER in *.h; do \
-		install -m0644 $$HEADER $(DESTDIR)$(includedir)/$$HEADER; \
+	for HEADER in $(HEADERS); do \
+		install -m0644 $$HEADER $(DESTDIR)$(includedir)/$${HEADER##*/}; \
 	done
 	install -dm0755 $(DESTDIR)$(libdir)
 	install -m0644 libtime.a $(DESTDIR)$(libdir)/libtime.a
