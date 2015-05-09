@@ -39,6 +39,11 @@ uint64_t libtime_wall(void)
 	return (double)mach_absolute_time() * (double)timebase.numer / (double)timebase.denom;
 }
 
+uint64_t libtime_wall_fast(void)
+{
+	return libtime_wall();
+}
+
 #endif
 
 /* vim: set ts=4 sw=4 noai noet: */

@@ -40,6 +40,11 @@ uint64_t libtime_wall(void)
 	return (counter.QuadPart * 1000000000) / perf_frequency.QuadPart;
 }
 
+uint64_t libtime_wall_fast()
+{
+	return libtime_wall();
+}
+
 #endif
 
 /* vim: set ts=4 sw=4 noai noet: */
