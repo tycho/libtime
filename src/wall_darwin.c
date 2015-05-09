@@ -36,7 +36,7 @@ int libtime_init_wallclock(void)
 
 uint64_t libtime_wall(void)
 {
-	return (double)mach_absolute_time() * (double)timebase.numer / (double)timebase.denom;
+	return mach_absolute_time() * timebase.numer / timebase.denom;
 }
 
 uint64_t libtime_wall_fast(void)
