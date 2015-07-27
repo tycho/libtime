@@ -130,7 +130,7 @@ int libtime_init_sleep(void)
 	}
 
 	/*
-	 * Estimate the minimum time consumed by a nanosleep(0).
+	 * Estimate the worst-case time consumed by a nanosleep(0).
 	 */
 	max = 0;
 	for (j = 0; j < runs; j++) {
@@ -145,7 +145,8 @@ int libtime_init_sleep(void)
 	max_sleep_ns = libtime_cpu_to_wall((max + samples - 1) >> shift);
 
 	/*
-	 * Estimate the minimum time consumed by libtime_nanosleep(0).
+	 * Estimate the minimum time consumed by calling our libtime_nanosleep()
+	 * API.
 	 */
 	runs = 10;
 	samples = 128;
