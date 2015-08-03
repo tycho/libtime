@@ -28,9 +28,11 @@
 
 static LARGE_INTEGER perf_frequency;
 
-void libtime_init_wallclock(void)
+int libtime_init_wallclock(void)
 {
-	QueryPerformanceFrequency(&perf_frequency);
+	if (!QueryPerformanceFrequency(&perf_frequency))
+		return 1;
+	return 0;
 }
 
 uint64_t libtime_wall(void)
