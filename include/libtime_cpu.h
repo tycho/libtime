@@ -22,7 +22,7 @@
 /*
  * Intel x86/x86_64
  */
-#if defined(__x86_64__) || defined(__i386__)
+#if defined(_M_IX86) || defined(_M_X64) || defined(__x86_64__) || defined(__i386__)
 #define FOUND_CPU_CLOCK
 static inline uint64_t libtime_cpu(void)
 {
@@ -49,7 +49,7 @@ static inline uint64_t libtime_cpu(void)
 /*
  * PowerPC
  */
-#if defined(__ppc__)
+#if defined(_M_PPC) || defined(__ppc__)
 #define FOUND_CPU_CLOCK
 #define __stringify_1(x...)     #x
 #define __stringify(x...)       __stringify_1(x)
