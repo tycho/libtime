@@ -21,5 +21,6 @@
 
 #undef LIBTIME_DLL_PUBLIC
 #undef LIBTIME_DLL_LOCAL
+#undef LIBTIME_ASSUME
 
 /* vim: set ts=4 sw=4 noai noet: */

@@ -83,7 +83,9 @@ extern clock_pfn _libtime_clocks[CLOCK_TYPE_MAX + 1];
 
 static inline uint64_t libtime_read(ClockType type)
 {
-	return (*_libtime_clocks[type])();
+	uint64_t rv = (*_libtime_clocks[type])();
+	LIBTIME_ASSUME(rv != 0);
+	return rv;
 }
 
 #include "libtime_cpu.h"

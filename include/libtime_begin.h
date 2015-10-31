@@ -49,6 +49,10 @@
   #define LIBTIME_DLL_LOCAL
 #endif
 
+#ifdef __GNUC__
+  #define LIBTIME_ASSUME(x)    do { if (!(x)) __builtin_unreachable(); } while (0)
+#endif
+
 #ifdef _MSC_VER
   #if _MSC_VER >= 1400
   //#include <intrin.h>
@@ -57,6 +61,11 @@
     #include <windows.h>
   #endif
   #define inline __inline
+  #define LIBTIME_ASSUME(x) __assume(x)
+#endif
+
+#ifndef LIBTIME_ASSUME
+  #define LIBTIME_ASSUME(x)
 #endif
 
 /* vim: set ts=4 sw=4 noai noet: */
