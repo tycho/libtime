@@ -49,7 +49,7 @@ typedef enum {
 extern LIBTIME_DLL_PUBLIC void libtime_init(void);
 
 /* Read the specified clock, return the current timestamp in nanoseconds. */
-extern LIBTIME_DLL_PUBLIC uint64_t libtime_read(ClockType type);
+static inline uint64_t libtime_read(ClockType type);
 
 /* Read the wall clock, return the time in nanoseconds. */
 extern LIBTIME_DLL_PUBLIC uint64_t libtime_wall(void);
@@ -77,6 +77,14 @@ extern LIBTIME_DLL_PUBLIC uint64_t libtime_cpu_ns(void);
  * nanoseconds. Will never sleep for less.
  */
 extern LIBTIME_DLL_PUBLIC void libtime_nanosleep(int64_t ns);
+
+typedef uint64_t (*clock_pfn)(void);
+extern clock_pfn _libtime_clocks[CLOCK_TYPE_MAX + 1];
+
+static inline uint64_t libtime_read(ClockType type)
+{
+	return (*_libtime_clocks[type])();
+}
 
 #include "libtime_cpu.h"
 
