@@ -19,7 +19,7 @@
  *
  */
 
-#ifndef __STATIC__
+#ifndef LIBTIME_STATIC
   #if defined _WIN32 || defined __CYGWIN__
     #ifdef LIBTIME_BUILDING_DLL
       #ifdef __GNUC__
