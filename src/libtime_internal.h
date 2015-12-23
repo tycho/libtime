@@ -22,11 +22,13 @@
 #include "libtime.h"
 #include "platform.h"
 
+#include <time.h>
+
 #if defined(TARGET_OS_MACOSX)
 #define USE_MACH_CLOCKS
 #elif defined(TARGET_OS_WINDOWS)
 #define USE_WINDOWS_CLOCKS
-#elif defined(__USE_POSIX199309)
+#elif defined(CLOCK_REALTIME)
 #define USE_POSIX_CLOCKS
 #else
 #error "Unable to find an appropriate clock source for your platform!"
