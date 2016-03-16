@@ -59,7 +59,7 @@ static inline int _libtime_nanosleep(void)
 	struct timespec ts;
 	ts.tv_sec = 0;
 	ts.tv_nsec = 0;
-#if defined(USE_MACH_CLOCKS)
+#if defined(USE_MACH_CLOCKS) || defined(TARGET_OS_FREEBSD)
 	return nanosleep(&ts, NULL);
 #elif defined(USE_POSIX_CLOCKS)
 	return clock_nanosleep(clock_id, 0, &ts, NULL);

@@ -1,8 +1,15 @@
 all:
 
+uname_S := $(shell uname -s 2>/dev/null || echo "not")
+uname_M := $(shell uname -m 2>/dev/null || echo "not")
+uname_O := $(shell uname -o 2>/dev/null || echo "not")
+
+ifeq ($(uname_S),FreeBSD)
+SHELL      := /usr/local/bin/bash
+else
 SHELL      := /bin/bash
-# Don't use -Rr or else the CC?= will fail.
-#MAKEFLAGS  += -Rr
+endif
+MAKEFLAGS  += --no-print-directory -Rr
 .SUFFIXES:
 
 ifneq ($(findstring $(MAKEFLAGS),s),s)
