@@ -52,17 +52,26 @@ define cc-option-add-closure
     endif
 endef
 
+def-if-unset = $(eval $(call def-if-unset-closure,$(1),$(2)))
+define def-if-unset-closure
+    ifneq ($$(findstring $$(origin $$($(1))),undefined default automatic),)
+        $(1) = $(2)
+    endif
+endef
+
+$(call def-if-unset,CC,clang)
 ifneq ($(shell type -P clang),)
-CC         ?= clang
+$(call def-if-unset,CC,clang)
 else
-CC         ?= gcc
+$(call def-if-unset,CC,gcc)
 endif
 
-LINK       ?= $(CC)
-AR         ?= ar
+$(call def-if-unset,LINK,$(CC))
+AR         := ar
 ARFLAGS    := rcu
-RANLIB     ?= ranlib
+$(call def-if-unset,RANLIB,ranlib)
 RM         := rm -f
+
 CPPFLAGS   := -Wall
 CFOPTIMIZE ?= -O2
 CFLAGS     ?= $(CFOPTIMIZE)
