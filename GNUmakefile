@@ -14,11 +14,12 @@ clean:
 
 distclean: clean
 
-$(LIB): $(OBJECTS)
-	$(QUIET_AR)$(AR) $(ARFLAGS) $@ $^
+$(LIB): $(OBJECTS) GNUmakefile
+	$(QUIET)$(RM) $@
+	$(QUIET_AR)$(AR) $(ARFLAGS) $@ $(OBJECTS)
 	$(QUIET_RANLIB)$(RANLIB) $@
 
-%.o: %.c .cflags
+%.o: %.c .cflags GNUmakefile
 	$(QUIET_CC)$(CC) $(CFLAGS) -c -o $@ $<
 
 install:
