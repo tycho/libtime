@@ -1,7 +1,7 @@
 /*
  * Platform detection header
  *
- * Copyright (c) 2010-2014, Steven Noonan <steven@uplinklabs.net>
+ * Copyright (c) 2010-2017, Steven Noonan <steven@uplinklabs.net>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
