@@ -54,12 +54,11 @@ endef
 
 def-if-unset = $(eval $(call def-if-unset-closure,$(1),$(2)))
 define def-if-unset-closure
-    ifneq ($$(findstring $$(origin $$($(1))),undefined default automatic),)
+    ifneq ($$(findstring $$(origin $(1)),undefined default automatic),)
         $(1) = $(2)
     endif
 endef
 
-$(call def-if-unset,CC,clang)
 ifneq ($(shell type -P clang),)
 $(call def-if-unset,CC,clang)
 else
@@ -67,7 +66,7 @@ $(call def-if-unset,CC,gcc)
 endif
 
 $(call def-if-unset,LINK,$(CC))
-AR         := ar
+$(call def-if-unset,AR,ar)
 ARFLAGS    := rcu
 $(call def-if-unset,RANLIB,ranlib)
 RM         := rm -f
