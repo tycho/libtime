@@ -22,8 +22,6 @@
 #include "libtime.h"
 #include "libtime_internal.h"
 
-typedef uint64_t (*clock_pfn)(void);
-
 clock_pfn _libtime_clocks[CLOCK_TYPE_MAX + 1];
 
 void libtime_init(void)
