@@ -49,7 +49,7 @@
   #define LIBTIME_DLL_LOCAL
 #endif
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5))
   #define LIBTIME_ASSUME(x)    do { if (!(x)) __builtin_unreachable(); } while (0)
 #endif
 
