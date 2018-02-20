@@ -43,15 +43,6 @@ cc-option = $(shell if test -z "`echo 'void*p=1;' | \
               $(1) $(2) -S -o /dev/null -xc - 2>&1 | grep -- $(2) -`"; \
               then echo "$(2)"; else echo "$(3)"; fi ;)
 
-# cc-option-add: Add an option to compilation flags, but only if supported.
-# Usage: $(call cc-option-add,CFLAGS,CC,-march=winchip-c6)
-cc-option-add = $(eval $(call cc-option-add-closure,$(1),$(2),$(3)))
-define cc-option-add-closure
-    ifneq ($$(call cc-option,$$($(2)),$(3),n),n)
-        $(1) += $(3)
-    endif
-endef
-
 def-if-unset = $(eval $(call def-if-unset-closure,$(1),$(2)))
 define def-if-unset-closure
     ifneq ($$(findstring $$(origin $(1)),undefined default automatic),)
@@ -74,8 +65,9 @@ RM         := rm -f
 CPPFLAGS   := -Wall
 CFOPTIMIZE ?= -O2
 CFLAGS     ?= $(CFOPTIMIZE)
-CFLAGS     += $(call cc-option,$(CC),-std=gnu11,-std=gnu99)
-$(call cc-option-add,CFLAGS,CC,-fno-strict-aliasing)
+CFLAGS     += $(CSTD)
+CSTD       := $(call cc-option,$(CC),-std=gnu11,-std=gnu99) \
+              $(call cc-option,$(CC),-fno-strict-aliasing,)
 CFLAGS     += $(CPPFLAGS)
 LDFLAGS    :=
 
