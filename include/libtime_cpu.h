@@ -19,6 +19,8 @@
  *
  */
 
+#if !defined(__NVPTX__)
+
 /*
  * Intel x86/x86_64
  */
@@ -82,6 +84,8 @@ static inline uint64_t libtime_cpu(void)
 #undef __stringify_1
 #undef __stringify
 #undef mfspr
+#endif
+
 #endif
 
 /*
