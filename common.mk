@@ -24,6 +24,10 @@ endif
 endif
 
 OSNAME     := $(shell uname -s || echo "not")
+ifneq ($(findstring MINGW,$(OSNAME)),)
+OSNAME     := Windows
+CFLAGS     += -fno-asynchronous-unwind-tables
+endif
 ifneq ($(findstring CYGWIN,$(OSNAME)),)
 OSNAME     := Cygwin
 endif
@@ -64,7 +68,7 @@ RM         := rm -f
 
 CPPFLAGS   := -Wall
 CFOPTIMIZE ?= -O2
-CFLAGS     ?= $(CFOPTIMIZE)
+CFLAGS     += $(CFOPTIMIZE)
 CFLAGS     += $(CSTD)
 CSTD       := $(call cc-option,$(CC),-std=gnu11,-std=gnu99) \
               $(call cc-option,$(CC),-fno-strict-aliasing,)
