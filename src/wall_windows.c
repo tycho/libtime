@@ -39,7 +39,7 @@ uint64_t libtime_wall(void)
 {
 	LARGE_INTEGER counter;
 	QueryPerformanceCounter(&counter);
-	return (counter.QuadPart * 1000000000) / perf_frequency.QuadPart;
+	return (counter.QuadPart * 1000000000ULL) / perf_frequency.QuadPart;
 }
 
 uint64_t libtime_wall_fast()
