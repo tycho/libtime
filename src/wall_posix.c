@@ -28,9 +28,9 @@
 #include <time.h>
 
 static const clockid_t precise_clocks[] = {
-#ifdef CLOCK_MONOTONIC_RAW
-	CLOCK_MONOTONIC_RAW,
-#endif
+//#ifdef CLOCK_MONOTONIC_RAW
+//	CLOCK_MONOTONIC_RAW,
+//#endif
 #ifdef CLOCK_MONOTONIC
 	CLOCK_MONOTONIC,
 #endif
@@ -40,9 +40,9 @@ static const clockid_t fast_clocks[] = {
 #ifdef CLOCK_MONOTONIC_COARSE
 	CLOCK_MONOTONIC_COARSE,
 #endif
-#ifdef CLOCK_MONOTONIC_RAW
-	CLOCK_MONOTONIC_RAW,
-#endif
+//#ifdef CLOCK_MONOTONIC_RAW
+//	CLOCK_MONOTONIC_RAW,
+//#endif
 #ifdef CLOCK_MONOTONIC
 	CLOCK_MONOTONIC,
 #endif
