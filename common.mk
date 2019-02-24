@@ -63,6 +63,7 @@ RM         := rm -f
 
 CPPFLAGS   := -Wall
 CFOPTIMIZE ?= -O2
+CFLAGS     += -fPIC
 CFLAGS     += $(CFOPTIMIZE)
 CFLAGS     += $(CSTD)
 CSTD       := $(call cc-option,$(CC),-std=gnu11,-std=gnu99) \
