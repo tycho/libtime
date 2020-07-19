@@ -11,4 +11,6 @@ if target_machine.system() == 'windows'
 endif
 
 subdir('src')
-subdir('tests')
+if not meson.is_subproject()
+  subdir('tests')
+endif
