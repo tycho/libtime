@@ -2,8 +2,13 @@ project('time', 'c')
 
 cc = meson.get_compiler('c')
 
-threads = dependency('threads')
-libm = cc.find_library('m')
+global_deps = [dependency('threads')]
+if target_machine.system() != 'windows'
+  global_deps += [cc.find_library('m')]
+endif
+if target_machine.system() == 'windows'
+  global_deps += [cc.find_library('winmm')]
+endif
 
 subdir('src')
 subdir('tests')

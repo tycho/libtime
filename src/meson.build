@@ -6,7 +6,7 @@ lib = static_library(
   'time',
   sources,
   c_args: ['-DLIBTIME_STATIC'],
-  dependencies: [ libm ],
+  dependencies: global_deps,
   include_directories: incdirs
 )
 
